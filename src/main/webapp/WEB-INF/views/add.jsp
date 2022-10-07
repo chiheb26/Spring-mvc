@@ -14,9 +14,12 @@
 </div>
 </c:if>
 
-<form action="add" method="POST">
+<form action="add?${_csrf.parameterName}=${_csrf.token}" method="POST">
   <div class="mb-3">
-    <label for="name" class="form-label">Name</label>
+   
+ <!--    <input type="hidden" name="${_csrf.parameterName} value="${_csrf.token}" /> -->
+ <label for="name" class="form-label">Name</label>
+   
     <input required type="text" class="form-control" name="name" id="name" >
      </div>
 

@@ -11,9 +11,11 @@
 <!--	<c:out value="${errorName}"></c:out>  -->
 </div>
 </c:if>
-<form action="update" method="POST">
+<form action="update?${_csrf.parameterName}=${_csrf.token}" method="POST">
 
   <div class="mb-3">
+  
+ <!--    <input type="hidden" name="${_csrf.parameterName} value="${_csrf.token}" /> -->
     <label for="name" class="form-label">ID</label>
     <input value="${student.getId()}" type="text" class="form-control" disabled >
      <input value="${student.getId()}" type="text" class="form-control" hidden name="id" id="id" >

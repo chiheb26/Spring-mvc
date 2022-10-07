@@ -1,6 +1,8 @@
 package com.mvc.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mvc.models.Student;
+import com.mvc.security.UserInfoStatus;
 import com.mvc.service.StudentService;
 import com.mvc.validation.CustomValidator;
 
@@ -17,12 +20,21 @@ public class StudentController {
 	StudentService studentService;
 	@Autowired
 	CustomValidator customValidator;
-	
+	@Autowired
+	UserInfoStatus userInfoSttatus;
+	 @RequestMapping("/") 
+	 public String homePage(ModelMap model) {
+		  model.addAttribute("PageTitle","Home Page");
+		  
+		  return "home"; 
+	}
+	 
 	@RequestMapping(value="/students",method=RequestMethod.GET)
 	public String studentsPage(ModelMap model) {
 		model.addAttribute("students",studentService.readAllStudents());
 		model.addAttribute("PageTitle","Students");
-		
+		model.addAttribute("name",userInfoSttatus.getLoggedName());
+		System.out.println(userInfoSttatus.isUserLoggedIn());
 		return"students";
 	}
 	@RequestMapping(value="/add",method=RequestMethod.GET)
@@ -64,4 +76,9 @@ public class StudentController {
 		}studentService.updateStudent(student.getId(),student.getName(),student.getIsActive());
 		return"redirect:students";
 	}
+	
+
+	
+	
+	
 }
